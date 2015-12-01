@@ -25,6 +25,11 @@ test:
   database: metamls
 
 production:
-  <<: *default
-  database: metamls
+    adapter: mysql2
+    encoding: utf8
+    database: metamls
+    pool: 5
+    username: root
+    password: root
+    socket: /var/run/mysqld/mysqld.sock
 
