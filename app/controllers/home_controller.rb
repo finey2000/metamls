@@ -1,7 +1,6 @@
 class HomeController < ApplicationController
   
-  def index
-    render text: 'Welcome - Site under contruction'
+  def index   
   end
   
 end
