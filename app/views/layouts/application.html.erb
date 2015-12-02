@@ -6,12 +6,14 @@
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
 </head>
-<body class="container">
+<body >
+    <div class="container">
     <header class="navbar navbar-default">
         <div class="pull-left logo" >MetaMLS</div>
         <div class="pull-right lead" id="user-block">User</div>
     </header>
 <%= yield %>
     <footer>Metamls (c) 2015</footer>
+    </div>
 </body>
 </html>

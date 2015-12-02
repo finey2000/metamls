@@ -1,0 +1,12 @@
+<%#
+# To change this license header, choose License Headers in Project Properties.
+# To change this template file, choose Tools | Templates
+# and open the template in the editor.
+%>
+
+<div class='center-block lead' >User Login</div>
+<%= form_for(:user) do |f| %>
+<div> <label >Username</label><%= f.text_field :username, class: 'form-control' %></div>
+<div> <label>Password</label><%= f.password_field :password, class: 'form-control' %></div>
+<div> <%= f.submit "Log in", class: "btn btn-primary" %> </div>
+<% end %>
