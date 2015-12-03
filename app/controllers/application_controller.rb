@@ -12,9 +12,6 @@ class ApplicationController < ActionController::Base
     
     @_current_user = User.find_by(id: user_id)
     
-    if !@_current_user 
-      redirect_to controller: :user, action: :login
-    end
     
   end
   

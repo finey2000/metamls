@@ -5,8 +5,13 @@
 %>
 
 <div class='center-block lead' >User Login</div>
-<%= form_for(:user) do |f| %>
-<div> <label >Username</label><%= f.text_field :username, class: 'form-control' %></div>
-<div> <label>Password</label><%= f.password_field :password, class: 'form-control' %></div>
-<div> <%= f.submit "Log in", class: "btn btn-primary" %> </div>
-<% end %>
+<form method="post" action="/user/login">
+<div> <label >Username</label>
+    <input type="text" class='form-control' placeholder="username" name="username" />
+</div>
+<div> <label>Password</label>
+    <input type="password" name='password' class="form-control" placeholder="password" />
+</div>
+    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %> " />
+    <div> <input type="submit" value="Login" class="btn btn-primary" /> </div>
+</form>

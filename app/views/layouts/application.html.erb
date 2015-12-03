@@ -13,6 +13,9 @@
         <div class="pull-left logo" >MetaMLS</div>
         <div class="pull-right lead" id="user-block">User</div>
     </header>
+        <% if flash[:notice] %>
+        <div class="alert"><%= flash[:notice]  %></div>
+        <% end %>        
 <%= yield %>
     <footer>Metamls (c) 2015</footer>
     </div>
