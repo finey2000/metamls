@@ -15,9 +15,9 @@ class UserController < ApplicationController
 #    if login request is posted
     if params[:username]      
       begin
-      user_id =  User.valid_user?(params[:username], params[:password])
+      user =  valid_user?(params[:username], params[:password])
 #      save user info into session
-      session[:current_user_id] = user_id
+      login_user(user)
       redirect_to controller: :home, action: :index        
       rescue Exception => e
         flash.now[:notice] = e.message
@@ -27,7 +27,7 @@ class UserController < ApplicationController
   end
   
   def logout
-    session[:current_user_id] = nil
+    logout_user
     redirect_to action: :login 
   end
   
@@ -35,14 +35,6 @@ class UserController < ApplicationController
     
   end
   
-  private
-  #loads user from the session
-  def load_user
-    
-  end
   
-  def logged_in?
-    session[:current_user_id]
-  end
   
 end
