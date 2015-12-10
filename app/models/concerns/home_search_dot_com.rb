@@ -17,7 +17,7 @@ class HomeSearchDotCom
     log "Fetching assets from #{@home_url}"
     get_page_count
     fetch_all
-    @assets_new = filter_array(@assets,'site_asset_id',remove_assets)    
+    @assets_new = filter_array(@assets,'source_asset_id',remove_assets)    
   end
   
   private
@@ -74,8 +74,8 @@ class HomeSearchDotCom
 #  <img width="305px" height="229px" src="https://img.homesearch.com/img/20151104/d19c3e66-83ac-41b3-a53f-69100ac3dd67_305x229.jpg" />
 #   </a>
     
-    asset[:site_asset_id] = node.css('.address-link').attribute('data-id').value
-    log "Extracting property #{asset[:site_asset_id]} from #{@home_url}"
+    asset[:source_asset_id] = node.css('.address-link').attribute('data-id').value
+    log "Extracting property #{asset[:source_asset_id]} from #{@home_url}"
     asset[:asset_url] = @home_url + node.css('.address-link').attribute('href').value
     asset[:img_thumbnail] = asset[:img_large] = node.css('a img').attribute('src').value
     address = []
@@ -115,13 +115,13 @@ class HomeSearchDotCom
 
     sale_type = node.css('#time-left-data').text.strip
     if sale_type == 'Live Event'
-      asset[:live_sale] = true
+      asset[:internet_sale] = false
   else
-    asset[:live_sale] = false
+    asset[:internet_sale] = true
   end
   
     # save only online sales if so specified
-          if asset[:live_sale] == true
+          if asset[:internet_sale] == false
               return if @online_auctions_only == true 
             end
 
@@ -141,7 +141,7 @@ class HomeSearchDotCom
     
     date_selector = '.tile-auction-time.result-time .local_datetime2.datetime'
     
-    if asset[:live_sale]   
+    if asset[:internet_sale]  == false 
     date = node.css(date_selector)[0].text.strip.split('/')
     asset[:sale_start] = asset[:sale_end] = "#{date[2]}-#{date[0]}-#{date[1]}" #let date be in a parsable format (year-month-day)          
     else

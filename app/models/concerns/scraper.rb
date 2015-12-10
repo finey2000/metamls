@@ -12,7 +12,6 @@ module Scraper
       @@auction = AuctionDotCom.new.fetch_new
 #      save_properties_for(@@auction,'auction.com')
       @@home_search = HomeSearchDotCom.new.fetch_new
-      binding.pry
     end        
     
     #saves an array of properties for a defined site

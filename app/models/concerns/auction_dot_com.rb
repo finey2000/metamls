@@ -25,13 +25,12 @@ class AuctionDotCom
             img_large: 'thumbnail',
             auction: nil, #auction or direct sale
             asset_url: 'pdp_url', #url to asset page on site
-            site_asset_id: 'global_property_id',
+            source_asset_id: 'global_property_id',
             listed_date: nil,
-            live_sale: nil,
+            internet_sale: nil,
             start_date: 'auction_start_date',
             size: 'sqft',
             current_price: 'starting_bid',
-            asset_type: 'auction_type' #residential or business property
           }
           @home_url = 'https://www.auction.com'
   end
@@ -40,7 +39,7 @@ class AuctionDotCom
       log "Fetching new assets from #{@home_url}"    
     fetch_all
     extract_fields
-    @assets_new = filter_array(@assets_extracted,'site_asset_id',remove_assets)
+    @assets_new = filter_array(@assets_extracted,'source_asset_id',remove_assets)
   end
   
   private
@@ -92,8 +91,13 @@ class AuctionDotCom
                   else
                   asset[:auction] = false 
                   end
-             asset[:live_only] = online_only.nil? ? false : true
-             log("Fetched property #{asset[:site_asset_id]} from #{@home_url}")
+             asset[:internet_sale] = online_only.nil? ? true : false
+             if value['auction_type'] == 'residential'
+               asset[:residential] = true
+             else
+               asset[:residential] = false
+             end
+             log("Fetched property #{asset[:source_asset_id]} from #{@home_url}")
             #check for field/parse errors here before pushing
             @assets_extracted.push(asset)
           end

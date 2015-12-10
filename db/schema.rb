@@ -11,7 +11,46 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151203103606) do
+ActiveRecord::Schema.define(version: 20151210074333) do
+
+  create_table "properties", force: :cascade do |t|
+    t.integer  "source_id",       limit: 4
+    t.string   "asset_url",       limit: 255,                               null: false
+    t.string   "source_asset_id", limit: 255,                               null: false
+    t.string   "address",         limit: 255,                               null: false
+    t.string   "city",            limit: 255,                               null: false
+    t.string   "state",           limit: 2,                                 null: false
+    t.integer  "zip",             limit: 4,                                 null: false
+    t.string   "img_thumbnail",   limit: 255
+    t.string   "img_large",       limit: 255
+    t.datetime "listed_date"
+    t.datetime "start_date",                                                null: false
+    t.datetime "end_date"
+    t.decimal  "current_price",               precision: 10,                null: false
+    t.boolean  "auction",                                                   null: false
+    t.boolean  "internet_sale",                                             null: false
+    t.boolean  "residential",                                default: true
+    t.string   "size",            limit: 20
+    t.integer  "year_built",      limit: 8
+    t.datetime "created_at",                                                null: false
+    t.datetime "updated_at",                                                null: false
+  end
+
+  add_index "properties", ["source_id"], name: "index_properties_on_source_id", using: :btree
+
+  create_table "sources", force: :cascade do |t|
+    t.string   "slug",             limit: 30,                   null: false
+    t.string   "url",              limit: 255,                  null: false
+    t.string   "type",             limit: 10,                   null: false
+    t.string   "listing_type",     limit: 15,                   null: false
+    t.boolean  "active",                         default: true
+    t.integer  "update_frequency", limit: 4,     default: 24
+    t.text     "note",             limit: 65535
+    t.datetime "created_at",                                    null: false
+    t.datetime "updated_at",                                    null: false
+  end
+
+  add_index "sources", ["slug"], name: "index_sources_on_slug", unique: true, using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "username",        limit: 255, null: false
