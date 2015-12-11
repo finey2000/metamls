@@ -4,21 +4,30 @@
 
 module Scraper
 
-  module ClassMethods
+  module InstanceMethods
     
           require 'open-uri'  
           
-    def sync
-      @@auction = AuctionDotCom.new.fetch_new
-#      save_properties_for(@@auction,'auction.com')
-      @@home_search = HomeSearchDotCom.new.fetch_new
+    def sync!
+      log "Syncing for #{self.slug}...."
+#      Get scraper class and initialize scraper object
+      scraper = Object.const_get(self.scraper_class).new
+      log "Scraper class is #{scraper.class}..."
+#      get an array of old_asset_ids so filtering can be done
+      old_asset_ids = Property.where(source_id: self.id).pluck('source_asset_id')
+      log "#{old_asset_ids.count} existing assets..."
+#      fetch all assets and return new_assets - old_assets
+      new_assets = scraper.fetch_new(old_asset_ids)
+      log "#{new_assets.count} assets extracted..."  
+#      add new assets to properties and source_id = self.id
+      self.properties.create!(new_assets)
+      log "#{new_assets.count} assets created"       
     end        
     
-    #saves an array of properties for a defined site
-    def save_properties_for(properties,site)
-      
-    end
   
+    def log(msg)
+      puts msg
+    end
     
 
   end

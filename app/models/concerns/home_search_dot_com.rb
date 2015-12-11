@@ -17,7 +17,7 @@ class HomeSearchDotCom
     log "Fetching assets from #{@home_url}"
     get_page_count
     fetch_all
-    @assets_new = filter_array(@assets,'source_asset_id',remove_assets)    
+    @assets_new = filter_array(@assets,:source_asset_id,remove_assets)    
   end
   
   private
@@ -143,12 +143,12 @@ class HomeSearchDotCom
     
     if asset[:internet_sale]  == false 
     date = node.css(date_selector)[0].text.strip.split('/')
-    asset[:sale_start] = asset[:sale_end] = "#{date[2]}-#{date[0]}-#{date[1]}" #let date be in a parsable format (year-month-day)          
+    asset[:start_date] = asset[:end_date] = "#{date[2]}-#{date[0]}-#{date[1]}" #let date be in a parsable format (year-month-day)          
     else
     date1 = node.css(date_selector)[0].text.strip.split('/')
-    asset[:sale_start] = "#{date1[2]}-#{date1[0]}-#{date1[1]}"  
+    asset[:start_date] = "#{date1[2]}-#{date1[0]}-#{date1[1]}"  
     date2 = node.css(date_selector)[1].text.strip.split('/')
-    asset[:sale_end] = "#{date2[2]}-#{date2[0]}-#{date2[1]}"    
+    asset[:end_date] = "#{date2[2]}-#{date2[0]}-#{date2[1]}"    
     end
 
     asset[:auction] = true

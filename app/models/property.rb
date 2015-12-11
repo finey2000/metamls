@@ -32,15 +32,15 @@ class Property < ActiveRecord::Base
   validates :zip, length: {minimum: 5}, presence: true  
   validates :start_date, presence: true  
   validates :current_price, presence: true  
-  validates :auction, presence: true  
-  validates :internet_sale, presence: true    
+  validates_inclusion_of :auction, in: [true, false]    
+  validates_inclusion_of :internet_sale, in: [true, false]    
   validates :year_built, length: {minimum: 4}, allow_blank: true
   
   
-  belongs_to :source
+  belongs_to :source, inverse_of: :properties
   
   class << self
-    include Scraper::ClassMethods
+
   end
   
 end

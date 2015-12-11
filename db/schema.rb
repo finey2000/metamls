@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151210074333) do
+ActiveRecord::Schema.define(version: 20151210161331) do
 
   create_table "properties", force: :cascade do |t|
     t.integer  "source_id",       limit: 4
@@ -41,13 +41,14 @@ ActiveRecord::Schema.define(version: 20151210074333) do
   create_table "sources", force: :cascade do |t|
     t.string   "slug",             limit: 30,                   null: false
     t.string   "url",              limit: 255,                  null: false
-    t.string   "type",             limit: 10,                   null: false
+    t.string   "source_type",      limit: 10,                   null: false
     t.string   "listing_type",     limit: 15,                   null: false
     t.boolean  "active",                         default: true
     t.integer  "update_frequency", limit: 4,     default: 24
     t.text     "note",             limit: 65535
     t.datetime "created_at",                                    null: false
     t.datetime "updated_at",                                    null: false
+    t.string   "scraper_class",    limit: 40,                   null: false
   end
 
   add_index "sources", ["slug"], name: "index_sources_on_slug", unique: true, using: :btree

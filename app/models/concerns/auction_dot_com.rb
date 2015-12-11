@@ -17,7 +17,7 @@ class AuctionDotCom
           @online_auctions_only = online_auctions_only
           @required_fields = {
             address: 'property_address',
-            state: 'venue_state',
+            state: 'property_state',
             city: 'property_city',
             zip: 'property_zip',
             year_built: nil,
@@ -39,7 +39,7 @@ class AuctionDotCom
       log "Fetching new assets from #{@home_url}"    
     fetch_all
     extract_fields
-    @assets_new = filter_array(@assets_extracted,'source_asset_id',remove_assets)
+    @assets_new = filter_array(@assets_extracted,:source_asset_id,remove_assets)
   end
   
   private
@@ -91,6 +91,7 @@ class AuctionDotCom
                   else
                   asset[:auction] = false 
                   end
+                 next if asset[:current_price].nil? #Don't save assets who's price have not been set
              asset[:internet_sale] = online_only.nil? ? true : false
              if value['auction_type'] == 'residential'
                asset[:residential] = true
