@@ -77,7 +77,7 @@ class HomeSearchDotCom
     asset[:source_asset_id] = node.css('.address-link').attribute('data-id').value
     log "Extracting property #{asset[:source_asset_id]} from #{@home_url}"
     asset[:asset_url] = @home_url + node.css('.address-link').attribute('href').value
-    asset[:img_thumbnail] = asset[:img_large] = node.css('a img').attribute('src').value
+    asset[:img_thumbnail] = asset[:img_large] = get_resource_link(node.css('a img').attribute('src').value)
     address = []
 #
 #                EXPECTED ADDRESS FORMAT

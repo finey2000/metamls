@@ -76,6 +76,16 @@ module Scraper
           puts msg
         end
         
+        #Returns the full url of a given resource        
+        def get_resource_link(resource)
+          res = resource.to_s
+          if res[0] == '/'
+            @home_url + res
+          else
+            res
+          end
+        end
+        
       end
       
 

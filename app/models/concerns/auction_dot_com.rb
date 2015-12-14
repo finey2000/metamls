@@ -93,6 +93,8 @@ class AuctionDotCom
                   end
                  next if asset[:current_price].nil? #Don't save assets who's price have not been set
              asset[:internet_sale] = online_only.nil? ? true : false
+             asset[:img_large] = get_resource_link(asset[:img_large])
+             asset[:img_thumbnail] = get_resource_link(asset[:img_thumb])             
              if value['auction_type'] == 'residential'
                asset[:residential] = true
              else

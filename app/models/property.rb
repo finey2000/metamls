@@ -26,6 +26,7 @@ class Property < ActiveRecord::Base
   
   validates :asset_url, presence: true
   validates :source_asset_id, presence: true
+  validates_uniqueness_of :source_asset_id, :scope => :source_id  #make sure that source does not have same asset id again
   validates :address, presence: true
   validates :city, presence: true  
   validates :state, presence: true  
