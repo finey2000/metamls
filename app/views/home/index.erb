@@ -17,19 +17,29 @@
         <div class="clearfix"></div>
 
                     <ul class="pagination">
-                        <li ><a href="/?pg=<%= @pagination[:prev_page] %> " class="btn btn-link">Prev</a></li>
-                        <li ><a href="/?pg=<%= @pagination[:first_page] %>" class="btn btn-link">First...</a></li>                        
+                        <li ><a href="/?pg=<%= @pagination[:prev_page] %> " >Prev</a></li>
+                        <% if @pagination[:first_page] != @pagination[:current_page] && !@pagination[:prev_pages].include?(@pagination[:first_page])%>
+                        <li ><a href="/?pg=<%= @pagination[:first_page] %>" ><%= @pagination[:first_page] %></a></li>
+                                <%  if !@pagination[:prev_pages].include?(@pagination[:first_page]+1)%>
+                                 <li class="disabled"><a href="#">...</a></li>
+                                 <% end %>
+                        <% end %>
                         <% @pagination[:prev_pages].each do |value| %>
-                        <li><a href="/?pg=<%= value %>" class="btn btn-link"><%= value %></a> </li>
+                        <li><a href="/?pg=<%= value %>" ><%= value %></a> </li>
                         <% end %>
 
-                        <li ><a href="#" class=""><%= @pagination[:current_page] %></a></li>
+                        <li class="active"><a href="#"><%= @pagination[:current_page] %></a></li>
                         
                         <% @pagination[:next_pages].each do |value| %>
-                        <li><a href="/?pg=<%= value %>" class="btn btn-link"><%= value %></a> </li>
+                        <li><a href="/?pg=<%= value %>" ><%= value %></a> </li>
                         <% end %>
-                        <li ><a href="/?pg=<%= @pagination[:last_page] %>" class="btn btn-link">...Last</a></li>
-                        <li ><a href="/?pg=<%= @pagination[:next_page] %>" class="btn btn-link">Next</a></li>                         
+                        <% if @pagination[:last_page] != @pagination[:current_page] && !@pagination[:next_pages].include?(@pagination[:last_page]) %>                        
+                                <%  if !@pagination[:next_pages].include?(@pagination[:last_page]-1)%>
+                                 <li class="disabled"><a href="#">...</a></li>
+                                 <% end %>                      
+                        <li ><a href="/?pg=<%= @pagination[:last_page] %>" ><%= @pagination[:last_page] %></a></li>
+                        <% end %>
+                        <li ><a href="/?pg=<%= @pagination[:next_page] %>" >Next</a></li>                         
                 </ul>
           
 </main>
