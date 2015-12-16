@@ -10,8 +10,26 @@
       <div> Current Price: <span>$ <%= p.current_price %> </span></div> 
       <div> Sale Date: <span><%= p.start_date %> </span></div>      
       <div> Source: <span><%= p.source.url %> </span></div> 
+      <div> Date Listed: <span><%= p.listed_date %> </span></div>    
       <div class=""><a class="btn btn-primary center-block" href="<%= p.asset_url %>" target="_blank">See Original Listing</a></div>
   </div>
   <% end %>
         <div class="clearfix"></div>
+
+                    <ul class="pagination">
+                        <li ><a href="/?pg=<%= @pagination[:prev_page] %> " class="btn btn-link">Prev</a></li>
+                        <li ><a href="/?pg=<%= @pagination[:first_page] %>" class="btn btn-link">First...</a></li>                        
+                        <% @pagination[:prev_pages].each do |value| %>
+                        <li><a href="/?pg=<%= value %>" class="btn btn-link"><%= value %></a> </li>
+                        <% end %>
+
+                        <li ><a href="#" class=""><%= @pagination[:current_page] %></a></li>
+                        
+                        <% @pagination[:next_pages].each do |value| %>
+                        <li><a href="/?pg=<%= value %>" class="btn btn-link"><%= value %></a> </li>
+                        <% end %>
+                        <li ><a href="/?pg=<%= @pagination[:last_page] %>" class="btn btn-link">...Last</a></li>
+                        <li ><a href="/?pg=<%= @pagination[:next_page] %>" class="btn btn-link">Next</a></li>                         
+                </ul>
+          
 </main>
