@@ -26,6 +26,10 @@ header .logo {
         border: solid thin orange;
 }
 
+header .logo a {
+    text-decoration: none;
+}
+
 footer {
     font-size: 0.8em;
 }

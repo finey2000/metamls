@@ -8,9 +8,9 @@ class UserController < ApplicationController
   end
   
   def login
-#    redirect to home if already logged in
+#    redirect to property if already logged in
     if logged_in?
-      redirect_to controller: :home, action: :index 
+      redirect_to controller: :properties, action: :index 
     end
 #    if login request is posted
     if params[:username]      
@@ -18,7 +18,7 @@ class UserController < ApplicationController
       user =  valid_user?(params[:username], params[:password])
 #      save user info into session
       login_user(user)
-      redirect_to controller: :home, action: :index        
+      redirect_to controller: :properties, action: :index        
       rescue Exception => e
         flash.now[:notice] = e.message
       end                  

@@ -1,0 +1,7 @@
+<% provide(:title, "Search Results - Metamls") %>
+<main>
+<%= render 'search_box'  %>  
+    <div> Search: "<%= @search_info[:query] %> " Returned <%= @search_info[:count] %> Results</div>
+<%= render 'properties'  %>        
+<%= render partial: 'pagination', locals: {add_query: "&query=#{@search_info[:query]}"} %>          
+</main>
