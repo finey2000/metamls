@@ -17,7 +17,7 @@ class PropertiesController < ApplicationController
     @search_info = {}
     @search_info[:count] = Property.where(search_query,search_filter).count
     @search_info[:query] = query
-    pages = (@search_info[:count]/per_page).ceil
+    pages = (@search_info[:count].to_f/per_page).ceil
     calculate_pagination(current_page+1,pages)
     @properties = Property.where(search_query,search_filter).order(id: :desc).limit(per_page).offset(offset)    
   end
@@ -28,7 +28,7 @@ class PropertiesController < ApplicationController
     req_page = params[:pg].to_i
     current_page = (req_page >= 1) ? (req_page - 1) : 0
     offset =  per_page * current_page
-    pages = (Property.count/per_page).ceil
+    pages = (Property.count.to_f/per_page).ceil
     calculate_pagination(current_page+1,pages)
     @properties = Property.order(id: :desc).limit(per_page).offset(offset)
   end
