@@ -5,7 +5,7 @@
       <div class="address"><%=address%> </div>
       <div> Listing Type: <span><%= p.auction ? 'Auction' : 'Buy Now' %> </span></div>
       <div> Sale Type: <span><%= p.internet_sale ? 'Internet Sale' : 'Live Sale' %> </span></div>      
-      <div> Current Price: <span>$ <%= p.current_price %> </span></div> 
+      <div> Current Price: <span><%= number_to_currency(p.current_price) %> </span></div> 
       <div> Sale Date: <span><%= p.start_date %> </span></div>      
       <div> Source: <span><%= p.source.url %> </span></div> 
       <div> Date Listed: <span><%= p.listed_date %> </span></div>    

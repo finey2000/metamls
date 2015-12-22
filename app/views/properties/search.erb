@@ -1,7 +1,8 @@
 <% provide(:title, "Search Results - MetaMLS") %>
 <main>
 <%= render partial: 'search_box', locals: {search_query: @search_info[:query]}  %>  
-    <div> Search: "<%= @search_info[:query] %> " Returned <%= @search_info[:count] %> Results</div>
+<%= render 'sorting'  %>    
+<div> Search: "<%= @search_info[:query] %> " Returned <%= @search_info[:count] %> Results</div>
 <%= render 'properties'  %>        
-<%= render partial: 'pagination', locals: {add_query: "&query=#{@search_info[:query]}"} %>          
+<%= render partial: 'pagination', locals: {add_query: "query=#{@search_info[:query]}&orderby=#{@order[:id]}"} %>          
 </main>

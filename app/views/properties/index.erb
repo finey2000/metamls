@@ -1,6 +1,7 @@
 <% provide(:title, "Metamls") %>
 <main>
 <%= render 'search_box'  %>  
+<%= render 'sorting'  %>        
 <%= render 'properties'  %>        
-<%= render 'pagination' %>          
+<%= render partial: 'pagination', locals: {add_query: "orderby=#{@order[:id]}"} %>          
 </main>

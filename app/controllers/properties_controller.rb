@@ -1,6 +1,6 @@
 class PropertiesController < ApplicationController
   before_action :authenticate_user
-  
+
   def index 
     show_properties
   end
@@ -10,6 +10,7 @@ class PropertiesController < ApplicationController
     per_page = 20
     query = params[:query].to_s
     req_page = params[:pg].to_i    
+    @order = property_order(params[:orderby].to_i)
     current_page = (req_page >= 1) ? (req_page - 1) : 0    
     offset =  per_page * current_page
     search_query = 'address LIKE :query OR city LIKE :query OR state LIKE :query OR zip like :query'
@@ -19,18 +20,19 @@ class PropertiesController < ApplicationController
     @search_info[:query] = query
     pages = (@search_info[:count].to_f/per_page).ceil
     calculate_pagination(current_page+1,pages)
-    @properties = Property.where(search_query,search_filter).order(id: :desc).limit(per_page).offset(offset)    
+    @properties = Property.where(search_query,search_filter).order(@order[:name] => @order[:order]).limit(per_page).offset(offset)    
   end
   
   private
   def show_properties
     per_page = 20
     req_page = params[:pg].to_i
+    @order = property_order(params[:orderby].to_i)    
     current_page = (req_page >= 1) ? (req_page - 1) : 0
     offset =  per_page * current_page
     pages = (Property.count.to_f/per_page).ceil
     calculate_pagination(current_page+1,pages)
-    @properties = Property.order(id: :desc).limit(per_page).offset(offset)
+    @properties = Property.order(@order[:name] => @order[:order]).limit(per_page).offset(offset)
   end
   
   def calculate_pagination(current_page,pages)
@@ -66,6 +68,16 @@ class PropertiesController < ApplicationController
               @pagination[:prev_pages].reverse!
     end    
 
+  end
+  
+  def property_order(val)
+     arr = [{id: 0,name: :id,order: :desc},
+            {id: 1,name: :state,order: :desc},
+            {id: 2,name: :city,order: :desc},
+            {id: 3,name: :current_price,order: :asc},
+            {id: 4,name: :end_date,order: :asc}
+            ]
+    arr[val]
   end
   
 end
