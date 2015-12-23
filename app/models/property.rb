@@ -38,7 +38,16 @@ class Property < ActiveRecord::Base
   validates :year_built, length: {minimum: 4}, allow_blank: true
   
   
-  belongs_to :source, inverse_of: :properties
+  belongs_to :source, {inverse_of: :properties, required: true, validate: true}
+  has_many :bookmarks, {inverse_of: :property, dependent: :destroy}
+  has_many :users, through: :bookmarks
+  
+  #Returns a specified user bookmark on this property
+  #Else returns false
+  #
+  def user_bookmark user
+    self.bookmarks.where(user_id: user.id)[0]
+  end
   
   class << self
 

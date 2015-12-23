@@ -4,7 +4,8 @@ module Userly
     #redirects to user login page if user is not logged in
   def authenticate_user
 #    save current page for redirection after login
-      redirect_to controller: :user, action: :login unless logged_in?        
+      redirect_to controller: :user, action: :login unless logged_in? 
+      current_user
   end
   
 # logs the user into the server  

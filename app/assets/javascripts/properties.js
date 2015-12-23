@@ -2,8 +2,20 @@
 $(document).ready(function(){
 //    register event handler for sorting
 $('#sorter select').change(sort_results); 
+$('.mark-property').click(mark_property);
 setCurrentSortOrder();
 });
+
+function mark_property(elem){
+    var marker = $(elem.currentTarget)
+    var property_id = marker.parent().parent().attr('data-property-id');
+    $.get('/properties/bookmark',{'property':property_id},function(response){
+        if(response.marked)
+            marker.removeClass('btn-info').addClass('btn-danger').text('Unmark');
+        else
+            marker.removeClass('btn-danger').addClass('btn-info').text('Mark');
+    });
+}
 
 function sort_results(){
 window.location = updateQueryStringParameter(document.URL,'orderby',$('#sorter select').val());

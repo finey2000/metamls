@@ -8,6 +8,8 @@ class User < ActiveRecord::Base
   validates :timeout, presence: true, allow_blank: true
   has_secure_password
   
-
+  has_many :bookmarks, {inverse_of: :user, dependent: :destroy} #linked to bookmarks, destroy bookmarks if user is deleted
+  has_many :properties, through: :bookmarks
+  
   
 end

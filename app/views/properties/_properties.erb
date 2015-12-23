@@ -1,6 +1,7 @@
   <% @properties.each do |p| %>
 <% address = "#{p.address}, #{p.city}, #{p.state}, #{p.zip}" %>
-  <div class="property-box pull-left">
+<% bookmark = p.user_bookmark(@current_user) %>
+  <div class="property-box pull-left" data-property-id="<%=p.id%>" >
 <div ><img class="img-thumbnail img-responsive center-block" src="<%=p.img_thumbnail%>" /></div>
       <div class="address"><%=address%> </div>
       <div> Listing Type: <span><%= p.auction ? 'Auction' : 'Buy Now' %> </span></div>
@@ -9,7 +10,9 @@
       <div> Sale Date: <span><%= p.start_date %> </span></div>      
       <div> Source: <span><%= p.source.url %> </span></div> 
       <div> Date Listed: <span><%= p.listed_date %> </span></div>    
+      <div> Property Id: <span><%= p.id %> </span></div>        
       <div class=""><a class="btn btn-primary center-block" href="<%= p.asset_url %>" target="_blank">See Original Listing</a></div>
+      <%= render partial: 'bookmark', locals: {bookmark: bookmark} %>
   </div>
   <% end %>
 <div class="clearfix"></div>

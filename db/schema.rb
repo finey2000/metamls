@@ -11,7 +11,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151210161331) do
+ActiveRecord::Schema.define(version: 20151223081203) do
+
+  create_table "bookmarks", force: :cascade do |t|
+    t.integer  "user_id",      limit: 4
+    t.integer  "property_id",  limit: 4
+    t.boolean  "alert",                      default: false
+    t.integer  "rating",       limit: 1,     default: 0
+    t.text     "note",         limit: 65535
+    t.datetime "note_updated"
+    t.datetime "created_at",                                 null: false
+    t.datetime "updated_at",                                 null: false
+  end
+
+  add_index "bookmarks", ["property_id"], name: "index_bookmarks_on_property_id", using: :btree
+  add_index "bookmarks", ["user_id"], name: "index_bookmarks_on_user_id", using: :btree
 
   create_table "properties", force: :cascade do |t|
     t.integer  "source_id",       limit: 4

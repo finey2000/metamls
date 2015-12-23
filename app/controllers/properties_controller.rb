@@ -5,6 +5,33 @@ class PropertiesController < ApplicationController
     show_properties
   end
   
+  # Show logged in user's selected properties
+  def favorites
+    
+  end
+  
+  #Receives a user request to bookmark a property
+  def bookmark
+    property = Property.find(params[:property].to_i)
+    return unless property.valid?
+    marked = unmarked = false
+    #if bookmark already exists, destroy it else create it
+    bookmark = Bookmark.find_by(user_id: @current_user.id,property_id: property.id)
+    if bookmark.nil?
+      Bookmark.create!(user_id: @current_user.id,property_id: property.id)
+      marked = true
+    else
+      bookmark.destroy
+      unmarked = true      
+    end
+    render json: {status: 'ok',marked: marked, unmarked: unmarked}
+  end
+  
+  #Receives a user request to rate product
+  def rating
+    
+  end
+  
   # Handle search queries here
   def search
     per_page = 20
