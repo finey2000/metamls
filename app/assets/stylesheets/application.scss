@@ -16,6 +16,10 @@
 @import "bootstrap";
 @import 'ratings';
 
+body{
+    font-family: sans-serif;
+}
+
 header .logo {
     font-weight: bold;
         font-size: 1.2em;
@@ -59,6 +63,47 @@ footer {
     max-width: 100%;
 }
 
+.property-box .address{
+    font-size: 1em;
+    font-weight: bold;
+    font-style: italic;
+    text-align: center;
+    text-justify: auto;
+}
+
+.property-box .listing-type{
+    font-size: 1em;
+    color: orange;
+    font-weight: bold;
+}
+
+.property-box .current-price{
+    font-size: 1.5em;
+    color: steelblue;
+    font-style: italic;
+    font-weight: bold;
+    text-align: center;
+}
+
+.property-box .sale-type{
+    font-size: 1em;
+    color: orange;
+    font-weight: bold;
+}
+
+.property-box .source-url{
+    font-size: 0.8em;
+    color: darkred;
+    text-align: center;
+    font-weight: bold;
+}
+
+.property-box .date{
+    font-weight: bold;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
 #note-editor {
     display: none;
 }
@@ -66,3 +111,12 @@ footer {
 .clickable {
    cursor: pointer;
 }
+
+.note-icon {
+            background: image-url('notepad.png') no-repeat;
+            float: left;
+            height:     28px;
+            padding:    2px;
+            width:      28px; 
+            margin-top: 10px;          
+} 

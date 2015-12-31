@@ -1,9 +1,11 @@
         .ratings {
             overflow:   visible;
-            padding:    10px;
+            padding-top:    5px;
+            padding-bottom:    5px;            
             position:   relative;
-            max-width:      250px;
+            max-width:      200px;
             height:     10%;
+            float: left;
         }
         .ratings_stars {
             background: image-url('star_empty.png') no-repeat;
@@ -20,7 +22,7 @@
         }
         .ratings_delete {
             background: image-url('delete.png') no-repeat;
-            float:      right;
+            float:      left;
             height:     28px;
             padding:    2px;
             width:      32px; 

@@ -19,14 +19,16 @@
  */
     Ratings.prototype.set_rating = function(event){
         var star = event.currentTarget;
-            var widget = $(star).parent();
-            
-            var clicked_data = {
-                rating : $(star).attr('data-rating')
-            };
+        var widget = $(star).parent();
+        var rating = parseInt($(star).attr('data-rating'));  
+        //remove note icon if note exist and rating is to be deleted
+        if(rating === 0 && widget.data('rating').note){
+            if (!confirm('Deleting this bookmark will delete the note associated with this property')) return;
+            widget.parent().find('.note-icon').hide();
+        }
             $.post(
                 this.server,
-                clicked_data,
+                {rating: rating},
                 $.proxy(function(response) {
                     widget.data('rating', response );
                     this.set_votes(widget);

@@ -4,13 +4,17 @@
   <div class="property-box pull-left" data-property-id="<%=p.id%>" >
       <div ><a href="<%= property_path(p) %>" ><img class="img-thumbnail img-responsive center-block" src="<%=p.img_thumbnail%>" /></a></div>
       <div class="address"><%=address%> </div>
-      <div class="listing-type"> Listing Type: <span><%= p.auction ? 'Auction' : 'Buy Now' %> </span></div>
-      <div class="sale-type"> Sale Type: <span><%= p.internet_sale ? 'Internet Sale' : 'Live Sale' %> </span></div>      
-      <div class="current-price"> Current Price: <span><%= number_to_currency(p.current_price) %> </span></div> 
-      <div class="sale-date"> Sale Date: <span><%= p.start_date %> </span></div>      
-      <div class="source-url"> Source: <span><%= p.source.url %> </span></div> 
-      <div class="date-listed"> Date Listed: <span><%= p.listed_date %> </span></div>         
-      <div class="ratings" ></div>      
+      <div class="current-price" title="Current Price"><%= number_to_currency(p.current_price) %></div>       
+      <div class="source-url" title="source site"><%= p.source.url %></div>      
+      <div class="listing-type pull-left" title="Listing Type"><%= p.auction ? 'Auction' : 'Buy Now' %></div>
+      <div class="sale-type pull-right" title="Sale Type"> <%= p.internet_sale ? 'Internet Sale' : 'Live Sale' %> </div>      
+      <div class="clearfix"></div>       
+      <div class="date pull-left">Listed:  <%= p.listed_date.to_date %></div>  
+      <div class="date pull-right">Sale:  <%= p.start_date.to_date %></div>        
+      <div class="clearfix"></div>      
+      <div class="ratings" title="Rate this property" ></div> 
+      <%= render partial: 'note', locals: {bookmark: bookmark} unless bookmark.nil? %>
+      <div class="clearfix"></div>      
       <div class="view-listing"><a class="btn btn-primary center-block" href="<%= property_path(p) %>">View Listing</a></div>      
       <div class="original-listing"><a class="btn btn-primary center-block" href="<%= p.asset_url %>" target="_blank">See Original Listing</a></div>
   </div>

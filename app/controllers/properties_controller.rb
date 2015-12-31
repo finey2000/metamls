@@ -15,7 +15,7 @@ class PropertiesController < ApplicationController
   def notes
         return unless property.valid?
       bookmark = Bookmark.find_by(user_id: current_user.id,property_id: property.id)
-      bookmark = Bookmark.create!(user_id: current_user.id,property_id: property.id) if bookmark.nil?
+      bookmark = Bookmark.create!(user_id: current_user.id,property_id: property.id,rating: 1) if bookmark.nil?
        bookmark.note = params[:note]
        bookmark.note_updated = Time.now
        bookmark.save!
@@ -32,10 +32,12 @@ class PropertiesController < ApplicationController
     bookmark = Bookmark.find_by(user_id: current_user.id,property_id: property.id)
     if bookmark.nil?
       rating = 0;
+      note = false;
     else
-      rating = bookmark.rating      
+      rating = bookmark.rating  
+      note = bookmark.note.present?
     end    
-    render json: {property: property.id, rating: rating}
+    render json: {property: property.id, rating: rating, note: note}
   end
   
 # also creates bookmark
