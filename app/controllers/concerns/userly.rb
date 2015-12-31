@@ -1,5 +1,5 @@
 module Userly
-    extend ActiveSupport::Concern
+    extend ActiveSupport::Concern  
     
     #redirects to user login page if user is not logged in
   def authenticate_user

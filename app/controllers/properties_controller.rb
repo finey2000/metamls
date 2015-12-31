@@ -1,5 +1,6 @@
 class PropertiesController < ApplicationController
   before_action :authenticate_user
+  helper_method :property
 
   def index 
     show_properties
@@ -10,26 +11,45 @@ class PropertiesController < ApplicationController
     
   end
   
-  #Receives a user request to bookmark a property
-  def bookmark
-    property = Property.find(params[:property].to_i)
-    return unless property.valid?
-    marked = unmarked = false
-    #if bookmark already exists, destroy it else create it
-    bookmark = Bookmark.find_by(user_id: @current_user.id,property_id: property.id)
-    if bookmark.nil?
-      Bookmark.create!(user_id: @current_user.id,property_id: property.id)
-      marked = true
-    else
-      bookmark.destroy
-      unmarked = true      
-    end
-    render json: {status: 'ok',marked: marked, unmarked: unmarked}
+#  Saves a note user sends about a specific property
+  def notes
+        return unless property.valid?
+      bookmark = Bookmark.find_by(user_id: current_user.id,property_id: property.id)
+      bookmark = Bookmark.create!(user_id: current_user.id,property_id: property.id) if bookmark.nil?
+       bookmark.note = params[:note]
+       bookmark.note_updated = Time.now
+       bookmark.save!
+    render json: {saved: true}    
   end
   
-  #Receives a user request to rate product
+  # Displays details of a specific property
+  def show
+  end
+  
+  
+  #returns the current user rating for a particular property
   def rating
-    
+    bookmark = Bookmark.find_by(user_id: current_user.id,property_id: property.id)
+    if bookmark.nil?
+      rating = 0;
+    else
+      rating = bookmark.rating      
+    end    
+    render json: {property: property.id, rating: rating}
+  end
+  
+# also creates bookmark
+  def set_rating
+    bookmark = Bookmark.find_by(user_id: current_user.id,property_id: property.id)
+    rating = params[:rating].to_i
+    if rating > 0
+    bookmark = Bookmark.create!(user_id: current_user.id,property_id: property.id) if bookmark.nil?
+    bookmark.rating = rating
+    bookmark.save!
+    else
+      bookmark.destroy if bookmark.present?
+    end   
+    render json: {property: property.id,rating: rating}
   end
   
   # Handle search queries here
@@ -105,6 +125,10 @@ class PropertiesController < ApplicationController
             {id: 4,name: :end_date,order: :asc}
             ]
     arr[val]
+  end
+  
+  def property
+    @property ||= Property.find(params[:id].to_i)
   end
   
 end

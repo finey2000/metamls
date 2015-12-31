@@ -1,0 +1,31 @@
+<% address = "#{property.address}, #{property.city}, #{property.state}, #{property.zip}" %>
+<% bookmark = property.user_bookmark(current_user) %>
+
+<script>
+  $(document).ready(function(){
+    new Ratings('/properties/<%=property.id%>/rating',$('.ratings'));
+  });
+</script>
+<div id="property-info" data-property-id="<%=  property.id %>" ><img class="img-responsive center-block" src="<%=property.img_thumbnail%>" /></div>
+<div class="center-block">
+    <div class="address"><%=address%> </div>
+    <div> <span class="label label-info">Listing Type:</span> <span><%= property.auction ? 'Auction' : 'Buy Now' %> </span></div>
+      <div> Sale Type: <span><%= property.internet_sale ? 'Internet Sale' : 'Live Sale' %> </span></div>      
+      <div> Current Price: <span><%= number_to_currency(property.current_price) %> </span></div> 
+      <div> Sale Date: <span><%= property.start_date %> </span></div>      
+      <div> Source: <span><%= property.source.url %> </span></div> 
+      <div> Date Listed: <span><%= property.listed_date %> </span></div>         
+      <div class=""><a class="btn btn-primary center-block" href="<%= property.asset_url %>" target="_blank">See Original Listing</a></div>
+  </div>
+<div class="ratings" ></div>
+<div id="notes"> Notes:
+    <div id="note-editor">
+        <textarea name="note" ></textarea>
+        <button name="save">Save</button>
+    </div>
+    <div id="note-viewer">
+        <div class="label"><a href="#" id="edit-note" >Edit</a></div>
+        <div class="viewer"><%=  bookmark.nil? ? '': bookmark.note %>
+</div></div>
+    
+</div>

@@ -7,8 +7,19 @@ Rails.application.routes.draw do
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
+ 
   
-  #use bound parameters for routing
+  resources :properties, only: ['show','index'] do
+    member do
+      post 'notes'
+      get 'rating'
+      post 'rating' => 'properties#set_rating'
+      get 'search' => 'properties#search'
+      get 'favorites' => 'properties#favorites'       
+    end
+  end
+  
+  #use bound parameters for misc routing
   get ':controller(/:action)'
   post ':controller(/:action)'  
   

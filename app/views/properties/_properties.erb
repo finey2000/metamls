@@ -1,18 +1,26 @@
   <% @properties.each do |p| %>
 <% address = "#{p.address}, #{p.city}, #{p.state}, #{p.zip}" %>
-<% bookmark = p.user_bookmark(@current_user) %>
+<% bookmark = p.user_bookmark(current_user) %>
   <div class="property-box pull-left" data-property-id="<%=p.id%>" >
-<div ><img class="img-thumbnail img-responsive center-block" src="<%=p.img_thumbnail%>" /></div>
+      <div ><a href="<%= property_path(p) %>" ><img class="img-thumbnail img-responsive center-block" src="<%=p.img_thumbnail%>" /></a></div>
       <div class="address"><%=address%> </div>
-      <div> Listing Type: <span><%= p.auction ? 'Auction' : 'Buy Now' %> </span></div>
-      <div> Sale Type: <span><%= p.internet_sale ? 'Internet Sale' : 'Live Sale' %> </span></div>      
-      <div> Current Price: <span><%= number_to_currency(p.current_price) %> </span></div> 
-      <div> Sale Date: <span><%= p.start_date %> </span></div>      
-      <div> Source: <span><%= p.source.url %> </span></div> 
-      <div> Date Listed: <span><%= p.listed_date %> </span></div>    
-      <div> Property Id: <span><%= p.id %> </span></div>        
-      <div class=""><a class="btn btn-primary center-block" href="<%= p.asset_url %>" target="_blank">See Original Listing</a></div>
-      <%= render partial: 'bookmark', locals: {bookmark: bookmark} %>
+      <div class="listing-type"> Listing Type: <span><%= p.auction ? 'Auction' : 'Buy Now' %> </span></div>
+      <div class="sale-type"> Sale Type: <span><%= p.internet_sale ? 'Internet Sale' : 'Live Sale' %> </span></div>      
+      <div class="current-price"> Current Price: <span><%= number_to_currency(p.current_price) %> </span></div> 
+      <div class="sale-date"> Sale Date: <span><%= p.start_date %> </span></div>      
+      <div class="source-url"> Source: <span><%= p.source.url %> </span></div> 
+      <div class="date-listed"> Date Listed: <span><%= p.listed_date %> </span></div>         
+      <div class="ratings" ></div>      
+      <div class="view-listing"><a class="btn btn-primary center-block" href="<%= property_path(p) %>">View Listing</a></div>      
+      <div class="original-listing"><a class="btn btn-primary center-block" href="<%= p.asset_url %>" target="_blank">See Original Listing</a></div>
   </div>
   <% end %>
 <div class="clearfix"></div>
+<script>
+  $(document).ready(function(){
+    $('.ratings').each(function(key,elem){
+      var propertyId = $(elem).parent().attr('data-property-id');
+      new Ratings('/properties/'+propertyId+'/rating',elem);
+    });
+  });
+</script>

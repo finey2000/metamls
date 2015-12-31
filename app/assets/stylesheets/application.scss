@@ -14,6 +14,7 @@
 
 @import "bootstrap-sprockets";
 @import "bootstrap";
+@import 'ratings';
 
 header .logo {
     font-weight: bold;
@@ -48,12 +49,20 @@ footer {
     padding: 5px;
     border: solid thin #561010;
     max-width: 250px;
-    min-height: 350px;
+    height: 480px;
     font-size: small;
+    cursor: pointer;
 }
 
 .property-box img {
-    max-width: 240px;
-    max-width: 150px;
+    max-height: 200px;    
+    max-width: 100%;
 }
 
+#note-editor {
+    display: none;
+}
+
+.clickable {
+   cursor: pointer;
+}

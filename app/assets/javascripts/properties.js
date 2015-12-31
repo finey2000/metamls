@@ -2,20 +2,29 @@
 $(document).ready(function(){
 //    register event handler for sorting
 $('#sorter select').change(sort_results); 
-$('.mark-property').click(mark_property);
 setCurrentSortOrder();
+//set click handlers for note creation and editing
+$('#edit-note').click(function(){
+    $('#note-editor').show();
+    $('#note-viewer').hide();
+    $('#note-editor textarea').val($('#note-viewer .viewer').text());
+});
+$('#note-editor button').click(save_note);
+
 });
 
-function mark_property(elem){
-    var marker = $(elem.currentTarget)
-    var property_id = marker.parent().parent().attr('data-property-id');
-    $.get('/properties/bookmark',{'property':property_id},function(response){
-        if(response.marked)
-            marker.removeClass('btn-info').addClass('btn-danger').text('Unmark');
-        else
-            marker.removeClass('btn-danger').addClass('btn-info').text('Mark');
+function save_note(){
+    var note = $('#note-editor textarea').val();
+    var property_id = $('#property-info').attr('data-property-id');
+    $.post('/properties/'+property_id+'/notes',{'note': note},function(response){
+       if(response.saved){
+      $('#note-viewer').show();
+      $('#note-viewer .viewer').text(note);
+      $('#note-editor').hide();
+       }
     });
 }
+
 
 function sort_results(){
 window.location = updateQueryStringParameter(document.URL,'orderby',$('#sorter select').val());
