@@ -22,5 +22,9 @@ module Metamls
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
+    #Use sidekick for queueing jobs
+    config.active_job.queue_adapter = :sidekiq
+    
+   config.time_zone = 'Pacific Time (US & Canada)'
   end
 end
