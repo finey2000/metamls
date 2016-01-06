@@ -6,7 +6,7 @@
     new Ratings('/properties/<%=property.id%>/rating',$('.ratings'));
   });
 </script>
-<div id="property-info" data-property-id="<%=  property.id %>" ><img class="img-responsive center-block" src="<%=property.img_thumbnail%>" /></div>
+<div id="property-info" data-property-id="<%=  property.id %>" ><img class="img-responsive center-block" src="<%=property.img_large%>" /></div>
 <div class="center-block">
     <div class="address"><%=address%> </div>
     <div> <span class="label label-info">Listing Type:</span> <span><%= property.auction ? 'Auction' : 'Buy Now' %> </span></div>

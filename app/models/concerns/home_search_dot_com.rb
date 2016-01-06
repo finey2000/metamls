@@ -20,7 +20,45 @@ class HomeSearchDotCom
     @assets_new = filter_array(@assets,:source_asset_id,remove_assets)    
   end
   
+  def update_property(property)
+    log "updating property #{property.id} via homesearch.com"  
+        begin
+      info = JSON.parse(open("https://homesearch.com/RealTime/GetCurrentListingAction?listingId=#{property.source_asset_id}").string)
+      timing = JSON.parse(open("https://homesearch.com/RealTime/GetCurrentEndDTTM?listingId=#{property.source_asset_id}").string)
+      current_price = info['CurrentPrice']['ListingPrice']
+      end_seconds = timing['RemainingMilliseconds']
+      property.current_price = current_price
+      property.status = false if end_seconds == 0
+      property.save!
+        rescue Exception => e
+          log "There's an error - #{e.message} - #{e.class}"
+        end
+  end  
+  
   private
+  
+#  returns a large image url for property
+  def get_large_image(asset_url)
+    begin
+      file = open(asset_url)
+      doc = Nokogiri::HTML(file)   
+#      
+#      EXPECTED FORMAT
+#      
+#      <ul class="slides">
+#          <li>
+#          <img src="https://img.homesearch.com/img/20151211/08700ded-e77c-4a44-9366-374e9d8c054f_631x631.jpg" alt="Image #1" height="460" width="631" />
+#          </li>
+#        <li>
+#            <img class="placeholder" alt="Image #1" height="460" width="631" />
+#          </li>
+#</ul>            
+      
+      doc.css('ul.slides li img')[0].attributes['src'].value
+    rescue
+      ''
+    end
+  end
   
   # Returns total number of pages in query site
   def get_page_count
@@ -50,8 +88,6 @@ class HomeSearchDotCom
     views.each {|node| extract_values_from_node(node)}
     @page += 1
     fetch_all if @page <= @page_count #get more pages
-#extract_values_from_node(views[2])
-#binding.pry?
   end
   
    
@@ -77,7 +113,8 @@ class HomeSearchDotCom
     asset[:source_asset_id] = node.css('.address-link').attribute('data-id').value
     log "Extracting property #{asset[:source_asset_id]} from #{@home_url}"
     asset[:asset_url] = @home_url + node.css('.address-link').attribute('href').value
-    asset[:img_thumbnail] = asset[:img_large] = get_resource_link(node.css('a img').attribute('src').value)
+    asset[:img_thumbnail] = get_resource_link(node.css('a img').attribute('src').value)
+    asset[:img_large] = get_large_image(asset[:asset_url])
     address = []
 #
 #                EXPECTED ADDRESS FORMAT

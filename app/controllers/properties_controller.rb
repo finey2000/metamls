@@ -65,11 +65,11 @@ class PropertiesController < ApplicationController
     search_query = 'address LIKE :query OR city LIKE :query OR state LIKE :query OR zip like :query'
     search_filter = {query: "%#{query}%"}
     @search_info = {}
-    @search_info[:count] = Property.where(search_query,search_filter).count
+    @search_info[:count] = Property.where(status: true).where(search_query,search_filter).count
     @search_info[:query] = query
     pages = (@search_info[:count].to_f/per_page).ceil
     calculate_pagination(current_page+1,pages)
-    @properties = Property.where(search_query,search_filter).order(@order[:name] => @order[:order]).limit(per_page).offset(offset)    
+    @properties = Property.where(status: true).where(search_query,search_filter).order(@order[:name] => @order[:order]).limit(per_page).offset(offset)    
   end
   
   private
@@ -79,9 +79,9 @@ class PropertiesController < ApplicationController
     @order = property_order(params[:orderby].to_i)    
     current_page = (req_page >= 1) ? (req_page - 1) : 0
     offset =  per_page * current_page
-    pages = (Property.count.to_f/per_page).ceil
+    pages = (Property.where(status: true).count.to_f/per_page).ceil
     calculate_pagination(current_page+1,pages)
-    @properties = Property.order(@order[:name] => @order[:order]).limit(per_page).offset(offset)
+    @properties = Property.where(status: true).order(@order[:name] => @order[:order]).limit(per_page).offset(offset)
   end
   
   def calculate_pagination(current_page,pages)

@@ -21,9 +21,22 @@ module Scraper
       log "#{new_assets.count} assets extracted..."  
 #      add new assets to properties and source_id = self.id
       self.properties.create!(new_assets)
-      log "#{new_assets.count} assets created"       
+      log "#{new_assets.count} assets created"  
+      update_properties!(scraper)      
     end        
-    
+  
+    #Updates old existing properties
+    def update_properties!(scraper)
+      log "Updating assets for #{self.slug}"
+#      only update active properties
+      Property.where(source_id: self.id, status: 1).find_each do |prop|
+        begin
+          scraper.update_property(prop)
+        rescue Exception => e
+          log "there was a connection error #{e.message} - #{e.class}"
+        end
+      end
+    end
   
     def log(msg)
       puts msg
@@ -41,7 +54,7 @@ module Scraper
         def str_get_from_to(str,start_txt,end_txt = nil)
           start_from_pos = str.index(start_txt) + start_txt.length
           start_string = str.from(start_from_pos)
-          if end_txt
+          if end_txt.present?
             end_at_pos = start_string.index(end_txt)
             return start_string.to(end_at_pos)
           end      

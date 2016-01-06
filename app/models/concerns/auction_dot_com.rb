@@ -42,6 +42,31 @@ class AuctionDotCom
     @assets_new = filter_array(@assets_extracted,:source_asset_id,remove_assets)
   end
   
+  def update_property(property)
+    log "updating property #{property.id} - auction.com"
+    begin
+      file = open(property.asset_url,redirect: false) #do not allow redirects
+      doc = Nokogiri::HTML(file)
+      start_from = 'ADC.model.property = '
+      end_at = '};'
+      scripts_string = doc.xpath('//script').to_s 
+      hash = JSON.parse(str_get_from_to(scripts_string,start_from,end_at)) 
+      current_price = hash['bidding']['est_opening_bid']      
+      property.current_price =  current_price unless current_price.nil?
+      property.save!      
+    rescue Exception => e
+      if e.class == OpenURI::HTTPRedirect
+      #if redirect request has been made, then property no longer exists         
+      property.status = false
+      property.save!      
+      else
+        log "property update error - #{e.class} - #{e.message}"        
+      end
+
+    end
+    
+  end
+  
   private
     #    
     # Fetches properties available on auction.com las vegas page

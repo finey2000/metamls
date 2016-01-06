@@ -21,6 +21,7 @@ class Property < ActiveRecord::Base
   # residential           -  boolean       residential or commercial property
   # size                  -  string
   # year_built            -  integer
+  # status                -  boolean      Current status of property, active or closed
   #
   
   

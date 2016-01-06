@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151223081203) do
+ActiveRecord::Schema.define(version: 20160105090515) do
 
   create_table "bookmarks", force: :cascade do |t|
     t.integer  "user_id",      limit: 4
@@ -48,6 +48,7 @@ ActiveRecord::Schema.define(version: 20151223081203) do
     t.integer  "year_built",      limit: 8
     t.datetime "created_at",                                                null: false
     t.datetime "updated_at",                                                null: false
+    t.boolean  "status",                                     default: true
   end
 
   add_index "properties", ["source_id"], name: "index_properties_on_source_id", using: :btree
