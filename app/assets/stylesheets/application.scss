@@ -49,75 +49,7 @@ footer {
 }
 
 
-.property-box {
-    margin: 10px;
-    padding: 5px;
-    border: solid thin #561010;
-    max-width: 250px;
-    height: 480px;
-    font-size: small;
-    cursor: pointer;
-}
-
-.property-box img {
-    max-height: 200px;    
-    max-width: 100%;
-}
-
-.property-box .address{
-    font-size: 1em;
-    font-weight: bold;
-    font-style: italic;
-    text-align: center;
-    text-justify: auto;
-}
-
-.property-box .listing-type{
-    font-size: 1em;
-    color: orange;
-    font-weight: bold;
-}
-
-.property-box .current-price{
-    font-size: 1.5em;
-    color: steelblue;
-    font-style: italic;
-    font-weight: bold;
-    text-align: center;
-}
-
-.property-box .sale-type{
-    font-size: 1em;
-    color: orange;
-    font-weight: bold;
-}
-
-.property-box .source-url{
-    font-size: 0.8em;
-    color: darkred;
-    text-align: center;
-    font-weight: bold;
-}
-
-.property-box .date{
-    font-weight: bold;
-    margin-top: 5px;
-    margin-bottom: 5px;
-}
-
-#note-editor {
-    display: none;
-}
-
 .clickable {
    cursor: pointer;
 }
 
-.note-icon {
-            background: image-url('notepad.png') no-repeat;
-            float: left;
-            height:     28px;
-            padding:    2px;
-            width:      28px; 
-            margin-top: 10px;          
-} 
