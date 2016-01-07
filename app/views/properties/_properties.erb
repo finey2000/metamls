@@ -3,20 +3,20 @@
 <% bookmark = p.user_bookmark(current_user) %>
   <div class="property-box pull-left" data-property-id="<%=p.id%>" >
       <div ><a href="<%= property_path(p) %>" ><img class="img-thumbnail img-responsive center-block" src="<%=p.img_thumbnail%>" /></a></div>
-      <div class="address"><%=address%> </div>
-      <div class="current-price" title="Current Price"><%= number_to_currency(p.current_price) %></div>       
-      <div class="source-url" title="source site"><%= p.source.url %></div>      
-      <div class="listing-type pull-left" title="Listing Type"><%= p.auction ? 'Auction' : 'Buy Now' %></div>
-      <div class="sale-type pull-right" title="Sale Type"> <%= p.internet_sale ? 'Internet Sale' : 'Live Sale' %> </div>      
+      <div class="property address"><%=address%> </div>
+      <div class="property current-price" title="Current Price"><%= number_to_currency(p.current_price) %></div>       
+      <div class="property source-url" title="source site"><%= p.source.url %></div>      
+      <div class="property listing-type pull-left" title="Listing Type"><%= p.auction ? 'Auction' : 'Buy Now' %></div>
+      <div class="property sale-type pull-right" title="Sale Type"> <%= p.internet_sale ? 'Internet Sale' : 'Live Sale' %> </div>      
       <div class="clearfix"></div>       
-      <div class="date pull-left">Listed:  <%= p.listed_date.to_date %></div>  
-      <div class="date pull-right">Sale:  <%= p.start_date.to_date %></div>        
+      <div class="property date pull-left">Listed:  <%= p.listed_date.to_date %></div>  
+      <div class="property date pull-right">Sale:  <%= p.start_date.to_date %></div>        
       <div class="clearfix"></div>      
-      <div class="ratings" title="Rate this property" ></div> 
+      <div class="property ratings" title="Rate this property" ></div> 
       <%= render partial: 'note', locals: {bookmark: bookmark} unless bookmark.nil? %>
       <div class="clearfix"></div>      
-      <div class="view-listing"><a class="btn btn-primary center-block" href="<%= property_path(p) %>">View Listing</a></div>      
-      <div class="original-listing"><a class="btn btn-primary center-block" href="<%= p.asset_url %>" target="_blank">See Original Listing</a></div>
+      <div class="property view-listing"><a class="btn btn-primary center-block" href="<%= property_path(p) %>">View Listing</a></div>      
+      <div class="property original-listing"><a class="btn btn-primary center-block" href="<%= p.asset_url %>" target="_blank">See Original Listing</a></div>
   </div>
   <% end %>
 <div class="clearfix"></div>

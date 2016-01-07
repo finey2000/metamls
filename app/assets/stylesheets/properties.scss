@@ -1,4 +1,103 @@
-// Place all the styles related to the home controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+.property-box {
+    margin: 10px;
+    padding: 5px;
+    border: solid thin #561010;
+    max-width: 250px;
+    height: 480px;
+    font-size: small;
+    cursor: pointer;
+}
 
+.property.info-box{
+    max-width: 600px;
+    padding: 10px;
+    margin-top: 10px;
+    border: black solid thin;
+}
+
+.property-box img {
+    max-height: 200px;    
+    max-width: 100%;
+}
+
+.property.address{
+    font-size: 1em;
+    font-weight: bold;
+    font-style: italic;
+    text-align: center;
+    text-justify: auto;
+}
+
+.property.listing-type{
+    font-size: 1em;
+    color: orange;
+    font-weight: bold;
+}
+
+.property.current-price{
+    font-size: 1.5em;
+    color: steelblue;
+    font-style: italic;
+    font-weight: bold;
+    text-align: center;
+}
+
+.property.sale-type{
+    font-size: 1em;
+    color: orange;
+    font-weight: bold;
+}
+
+.property.source-url{
+    font-size: 0.8em;
+    color: darkred;
+    text-align: center;
+    font-weight: bold;
+}
+
+.property.date{
+    font-weight: bold;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.note-icon {
+            background: image-url('notepad.png') no-repeat;
+            float: left;
+            height:     28px;
+            padding:    2px;
+            width:      28px; 
+            margin-top: 10px;          
+} 
+
+.property.note {
+    margin-top: 10px;
+}
+
+.note .header{
+    font-size: 1.2em;
+    font-weight: bold;
+    color: steelblue;
+}
+
+.note .viewer{
+    padding: 3px;
+    margin: 5px;
+    font-weight: bold;
+    font-style: italic;
+    font-size: 0.9em;
+    border: darkslategrey dashed thin;
+}
+
+.note .edit-block {
+    display: none;
+}
+
+.note .edit-block textarea{
+    font-size: 0.9em;
+    font-style: italic;
+    font-weight: bold;
+    padding: 5px;
+    margin: 5px;
+    min-width: 100%;
+}

@@ -4,25 +4,32 @@ $(document).ready(function(){
 $('#sorter select').change(sort_results); 
 setCurrentSortOrder();
 //set click handlers for note creation and editing
-$('#edit-note').click(function(){
-    $('#note-editor').show();
-    $('#note-viewer').hide();
-    $('#note-editor textarea').val($('#note-viewer .viewer').text());
+$('.property.note .view-block .action').click(function(){
+    $('.property.note .edit-block').show();
+    $('.property.note .view-block').hide();
+    $('.property.note textarea').val($('.property.note .viewer').text());
 });
-$('#note-editor button').click(save_note);
+$('.property.note .edit-block button').click(save_note);
 
 });
 
 function save_note(){
-    var note = $('#note-editor textarea').val();
+    var note = $('.property.note textarea').val();
     var property_id = $('#property-info').attr('data-property-id');
     $.post('/properties/'+property_id+'/notes',{'note': note},function(response){
        if(response.saved){
-      $('#note-viewer').show();
-      $('#note-viewer .viewer').text(note);
-      $('#note-editor').hide();
+      $('.property.note .view-block').show();
+      $('.property.note .viewer').text(note);
+      $('.property.note .view-block .action').text('Edit');      
+      $('.property.note .edit-block').hide();
+      ratingsWidget.get_rating();
        }
     });
+}
+
+function delete_note(){
+          $('.property.note .viewer').text('');
+          $('.property.note .view-block .action').text('Create');              
 }
 
 

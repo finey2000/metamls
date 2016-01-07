@@ -4,9 +4,10 @@
   * @returns {Ratings}
   */
  function Ratings(server,widget){
-     this.server = server;     
-         this.set_divs(widget); //define inner divs for each rating widget
-         this.get_rating(widget);
+     this.server = server;   
+     this.widget = widget;
+         this.set_divs(); //define inner divs for each rating widget
+         this.get_rating();
     $(widget).find('.ratings_stars').hover($.proxy(this.mouseover,this),$.proxy(this.mouseout,this)).click($.proxy(this.set_rating,this));
     $(widget).find('.ratings_delete').click($.proxy(this.set_rating,this));
      
@@ -25,6 +26,7 @@
         if(rating === 0 && widget.data('rating').note){
             if (!confirm('Deleting this bookmark will delete the note associated with this property')) return;
             widget.parent().find('.note-icon').hide();
+            delete_note();
         }
             $.post(
                 this.server,
@@ -62,14 +64,14 @@
  * define the divs where our ratings stars would be saved in per specified widget
  * @returns {undefined}
  */
-    Ratings.prototype.set_divs = function(widget){
+    Ratings.prototype.set_divs = function(){
         var star_count = 5;
-        $(widget).addClass('ratings-widget');
+        $(this.widget).addClass('ratings-widget');
         for(var i=1;i<=star_count;i++){
-            $(widget).append('<div class="star_'+i+' ratings_stars clickable" data-rating="'+i+'"></div>');
+            $(this.widget).append('<div class="star_'+i+' ratings_stars clickable" data-rating="'+i+'"></div>');
         }
 //        attach delete button
-        $(widget).append('<div class="ratings_delete clickable" data-rating="0"></div>');        
+        $(this.widget).append('<div class="ratings_delete clickable" data-rating="0"></div>');        
         
     };
 
@@ -77,12 +79,12 @@
  * Gets rating from the server as specified by widget
  * @returns {undefined}
  */
-    Ratings.prototype.get_rating = function(widget){
+    Ratings.prototype.get_rating = function(){
             $.get(
                 this.server,{},
                 $.proxy(function(response) {                    
-                    $(widget).data( 'rating', response );                  
-                    this.set_votes(widget);
+                    $(this.widget).data( 'rating', response );                  
+                    this.set_votes(this.widget);
                 },this),
                 'json'
             );        

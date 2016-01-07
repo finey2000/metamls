@@ -3,30 +3,38 @@
 
 <script>
   $(document).ready(function(){
-    new Ratings('/properties/<%=property.id%>/rating',$('.ratings'));
+   ratingsWidget = new Ratings('/properties/<%=property.id%>/rating',$('.ratings'));
   });
 </script>
-<div id="property-info" data-property-id="<%=  property.id %>" ><img class="img-responsive center-block" src="<%=property.img_large%>" /></div>
-<div class="center-block">
-    <div class="address"><%=address%> </div>
-    <div> <span class="label label-info">Listing Type:</span> <span><%= property.auction ? 'Auction' : 'Buy Now' %> </span></div>
-      <div> Sale Type: <span><%= property.internet_sale ? 'Internet Sale' : 'Live Sale' %> </span></div>      
-      <div> Current Price: <span><%= number_to_currency(property.current_price) %> </span></div> 
-      <div> Sale Date: <span><%= property.start_date %> </span></div>      
-      <div> Source: <span><%= property.source.url %> </span></div> 
-      <div> Date Listed: <span><%= property.listed_date %> </span></div>         
-      <div class=""><a class="btn btn-primary center-block" href="<%= property.asset_url %>" target="_blank">See Original Listing</a></div>
-  </div>
-<div class="ratings" ></div>
-<div class="clearfix"></div> 
-<div id="notes"> Notes:
-    <div id="note-editor">
-        <textarea name="note" ></textarea>
-        <button name="save">Save</button>
+<div id="property-info" class="center-block" data-property-id="<%=  property.id %>" >
+      <div> <img class="img-responsive center-block" src="<%=property.img_large%>" /></div>
+    <div class="property info-box center-block">
+      <div class="property address"><%=address%> </div>
+      <div class="property current-price" title="Current Price"><%= number_to_currency(property.current_price) %></div>           
+      <div class="property source-url" title="source site"><%= property.source.url %></div>            
+      <div class="property listing-type pull-left" title="Listing Type"><%= property.auction ? 'Auction' : 'Buy Now' %></div>      
+      <div class="property sale-type pull-right" title="Sale Type"> <%= property.internet_sale ? 'Internet Sale' : 'Live Sale' %> </div>      
+      <div class="clearfix"></div>       
+      <div class="property date pull-left">Listed:  <%= property.listed_date.to_date %></div>    
+      <div class="property date pull-right">Sale:  <%= property.start_date.to_date %></div>        
+      <div class="clearfix"></div>  
+      <div class="property ratings" ></div>
+      
+      <div class="property original-listing"><a class="btn btn-default pull-right" href="<%= property.asset_url %>" target="_blank">See Original Listing</a></div>        
+      <div class="clearfix"></div> 
+      <div id="notes" class="property note center-block"> <span class="header">Your Notes</span>
+          <div id="note-editor" class="edit-block">
+              <textarea name="note" class="editor" ></textarea>
+              <button name="save" class="btn btn-default pull-right">Save</button>
+              <div class="clearfix"></div>
+          </div>
+          <div id="note-viewer" class="view-block">
+              <div class="viewer center-block"><%=  bookmark.nil? ? '': bookmark.note %></div>
+              <div ><a href="#" id="edit-note" class="btn btn-default pull-right action" ><%= (bookmark.present? && bookmark.note.present?) ? 'Edit' : 'Create'%>  Note</a></div>              
+              <div class="clearfix"></div>
+          </div>
+
+      </div>  
     </div>
-    <div id="note-viewer">
-        <div class="label"><a href="#" id="edit-note" >Edit</a></div>
-        <div class="viewer"><%=  bookmark.nil? ? '': bookmark.note %>
-</div></div>
-    
 </div>
+
