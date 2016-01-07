@@ -51,19 +51,25 @@ class AuctionDotCom
       end_at = '};'
       scripts_string = doc.xpath('//script').to_s 
       hash = JSON.parse(str_get_from_to(scripts_string,start_from,end_at)) 
-      current_price = hash['bidding']['est_opening_bid']      
-      property.start_date = property.end_date = hash['auction_start_date']
+      current_price = hash['bidding']['est_opening_bid']   
+      #      Also Get more info from hash['auction_details']
+      if hash['postponement_date'].present?
+      property.start_date = property.end_date = hash['postponement_date']
+      else
+      property.start_date = property.end_date = hash['auction_start_date']        
+      end
       property.current_price =  current_price unless current_price.nil?
+      property.status = false if hash['sold_or_did_not_sell']
       property.save!      
     rescue Exception => e
       if e.class == OpenURI::HTTPRedirect
       #if redirect request has been made, then property no longer exists         
       property.status = false
       property.save!      
+#     if e.class == Errno::ECONNRESET log "Connection issue - reschedule this property for update"
       else
         log "property update error - #{e.class} - #{e.message}"        
       end
-
     end
     
   end
