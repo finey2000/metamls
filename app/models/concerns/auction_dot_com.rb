@@ -52,6 +52,7 @@ class AuctionDotCom
       scripts_string = doc.xpath('//script').to_s 
       hash = JSON.parse(str_get_from_to(scripts_string,start_from,end_at)) 
       current_price = hash['bidding']['est_opening_bid']      
+      property.start_date = property.end_date = hash['auction_start_date']
       property.current_price =  current_price unless current_price.nil?
       property.save!      
     rescue Exception => e

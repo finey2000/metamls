@@ -8,14 +8,14 @@ Rails.application.routes.draw do
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
  
+  get 'properties/search' => 'properties#search'
+  get 'properties/favorites' => 'properties#favorites'   
   
   resources :properties, only: ['show','index'] do
     member do
       post 'notes'
       get 'rating'
-      post 'rating' => 'properties#set_rating'
-      get 'search' => 'properties#search'
-      get 'favorites' => 'properties#favorites'       
+      post 'rating' => 'properties#set_rating'      
     end
   end
   
