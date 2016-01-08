@@ -1,0 +1,8 @@
+<% provide(:title, "Favorites") %>
+<main>
+    <div class="center-block"><h1>Favorites</h1></div>
+<%= render 'search_box'  %>  
+<%= render 'sorting'  %>        
+<%= render 'properties'  %>        
+<%= render partial: 'pagination', locals: {add_query: "orderby=#{@order[:id]}"} %>          
+</main>

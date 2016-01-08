@@ -2,14 +2,49 @@ class PropertiesController < ApplicationController
   before_action :authenticate_user
   helper_method :property
 
+  #Show all active properties
   def index 
-    show_properties
+    per_page = 20
+    req_page = params[:pg].to_i
+    @order = property_order(params[:orderby].to_i)    
+    current_page = (req_page >= 1) ? (req_page - 1) : 0
+    offset =  per_page * current_page
+    pages = (Property.where(status: true).count.to_f/per_page).ceil
+    calculate_pagination(current_page+1,pages)
+    @properties = Property.where(status: true).order(@order[:name] => @order[:order]).limit(per_page).offset(offset)
   end
   
-  # Show logged in user's selected properties
+  # Show user's favorite properties
   def favorites
-    
+    per_page = 20
+    req_page = params[:pg].to_i
+    @order = property_order(params[:orderby].to_i)    
+    current_page = (req_page >= 1) ? (req_page - 1) : 0
+    offset =  per_page * current_page
+    pages = (current_user.properties.where(status: true).count.to_f/per_page).ceil
+    calculate_pagination(current_page+1,pages)
+    @properties = current_user.properties.where(status: true).order(@order[:name] => @order[:order]).limit(per_page).offset(offset)    
   end
+  
+  
+  #Handle search queries here
+  def search
+    per_page = 20
+    query = params[:query].to_s
+    req_page = params[:pg].to_i    
+    @order = property_order(params[:orderby].to_i)
+    current_page = (req_page >= 1) ? (req_page - 1) : 0    
+    offset =  per_page * current_page
+    search_query = 'address LIKE :query OR city LIKE :query OR state LIKE :query OR zip like :query'
+    search_filter = {query: "%#{query}%"}
+    @search_info = {}
+    @search_info[:count] = Property.where(status: true).where(search_query,search_filter).count
+    @search_info[:query] = query
+    pages = (@search_info[:count].to_f/per_page).ceil
+    calculate_pagination(current_page+1,pages)
+    @properties = Property.where(status: true).where(search_query,search_filter).order(@order[:name] => @order[:order]).limit(per_page).offset(offset)    
+  end
+
   
 #  Saves a note user sends about a specific property
   def notes
@@ -54,36 +89,8 @@ class PropertiesController < ApplicationController
     render json: {property: property.id,rating: rating}
   end
   
-  # Handle search queries here
-  def search
-    per_page = 20
-    query = params[:query].to_s
-    req_page = params[:pg].to_i    
-    @order = property_order(params[:orderby].to_i)
-    current_page = (req_page >= 1) ? (req_page - 1) : 0    
-    offset =  per_page * current_page
-    search_query = 'address LIKE :query OR city LIKE :query OR state LIKE :query OR zip like :query'
-    search_filter = {query: "%#{query}%"}
-    @search_info = {}
-    @search_info[:count] = Property.where(status: true).where(search_query,search_filter).count
-    @search_info[:query] = query
-    pages = (@search_info[:count].to_f/per_page).ceil
-    calculate_pagination(current_page+1,pages)
-    @properties = Property.where(status: true).where(search_query,search_filter).order(@order[:name] => @order[:order]).limit(per_page).offset(offset)    
-  end
   
   private
-  def show_properties
-    per_page = 20
-    req_page = params[:pg].to_i
-    @order = property_order(params[:orderby].to_i)    
-    current_page = (req_page >= 1) ? (req_page - 1) : 0
-    offset =  per_page * current_page
-    pages = (Property.where(status: true).count.to_f/per_page).ceil
-    calculate_pagination(current_page+1,pages)
-    @properties = Property.where(status: true).order(@order[:name] => @order[:order]).limit(per_page).offset(offset)
-  end
-  
   def calculate_pagination(current_page,pages)
      first_page = 1     
      next_count = prev_count = 4 #how many links to display on page  
